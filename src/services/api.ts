@@ -3,13 +3,13 @@ import { User, Company, Vehicle } from '@/types';
 import { mockUsers, mockCompanies, mockVehicles } from '@/mocks/data';
 
 // Создаем instance axios с базовым URL
-const api = axios.create({
+const api_cli = axios.create({
   baseURL: 'http://localhost:3000/api', // Замените на ваш реальный URL
   timeout: 5000,
 });
 
 // Добавляем перехватчик для добавления токена авторизации
-api.interceptors.request.use((config) => {
+api_cli.interceptors.request.use((config) => {
   const token = localStorage.getItem('token');
   if (token) {
     config.headers.Authorization = `Bearer ${token}`;
@@ -20,7 +20,7 @@ api.interceptors.request.use((config) => {
 // Имитация задержки сети для мок-данных
 const delay = (ms: number) => new Promise(resolve => setTimeout(resolve, ms));
 
-export const apis = {
+export const api = {
   // Пользователи
   getUsers: (): Promise<User[]> => {
     return Promise.resolve(mockUsers);
