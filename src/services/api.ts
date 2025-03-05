@@ -20,7 +20,7 @@ api.interceptors.request.use((config) => {
 // Имитация задержки сети для мок-данных
 const delay = (ms: number) => new Promise(resolve => setTimeout(resolve, ms));
 
-export const api = {
+export const apis = {
   // Пользователи
   getUsers: (): Promise<User[]> => {
     return Promise.resolve(mockUsers);
