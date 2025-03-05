@@ -1,4 +1,3 @@
-
 import axios from 'axios';
 import { User, Company, Vehicle } from '@/types';
 import { mockUsers, mockCompanies, mockVehicles } from '@/mocks/data';
@@ -21,89 +20,42 @@ api.interceptors.request.use((config) => {
 // Имитация задержки сети для мок-данных
 const delay = (ms: number) => new Promise(resolve => setTimeout(resolve, ms));
 
-export const apiService = {
+export const api = {
   // Пользователи
-  async getUsers(): Promise<User[]> {
-    // Мок-данные
-    await delay(500);
-    return mockUsers;
-
-    // Реальный запрос к API
-    /*
-    try {
-      const response = await api.get('/users');
-      return response.data;
-    } catch (error) {
-      console.error('Error fetching users:', error);
-      throw error;
-    }
-    */
+  getUsers: (): Promise<User[]> => {
+    return Promise.resolve(mockUsers);
+    // Реальный запрос:
+    // return api.get('/users').then(response => response.data);
   },
 
-  async createUser(userData: Omit<User, 'id'>): Promise<User> {
-    // Мок-данные
-    await delay(500);
+  createUser: (userData: Omit<User, 'id'>): Promise<User> => {
     const newUser = { ...userData, id: mockUsers.length + 1 };
     mockUsers.push(newUser);
-    return newUser;
-
-    /*
-    try {
-      const response = await api.post('/users', userData);
-      return response.data;
-    } catch (error) {
-      console.error('Error creating user:', error);
-      throw error;
-    }
-    */
+    return Promise.resolve(newUser);
+    // return api.post('/users', userData).then(response => response.data);
   },
 
-  async updateUser(id: number, userData: Partial<User>): Promise<User> {
-    /*
-    try {
-      const response = await api.put(`/users/${id}`, userData);
-      return response.data;
-    } catch (error) {
-      console.error('Error updating user:', error);
-      throw error;
-    }
-    */
-    await delay(500);
+  updateUser: (id: number, userData: Partial<User>): Promise<User> => {
     const index = mockUsers.findIndex(user => user.id === id);
     if (index === -1) throw new Error('User not found');
     mockUsers[index] = { ...mockUsers[index], ...userData };
-    return mockUsers[index];
+    return Promise.resolve(mockUsers[index]);
+    // return api.put(`/users/${id}`, userData).then(response => response.data);
   },
 
-  async deleteUser(id: number): Promise<void> {
-    /*
-    try {
-      await api.delete(`/users/${id}`);
-    } catch (error) {
-      console.error('Error deleting user:', error);
-      throw error;
-    }
-    */
-    await delay(500);
+  deleteUser: (id: number): Promise<void> => {
     const index = mockUsers.findIndex(user => user.id === id);
     if (index !== -1) {
       mockUsers.splice(index, 1);
     }
+    return Promise.resolve();
+    // return api.delete(`/users/${id}`).then(() => undefined);
   },
 
   // Компании
-  async getCompanies(): Promise<Company[]> {
-    /*
-    try {
-      const response = await api.get('/companies');
-      return response.data;
-    } catch (error) {
-      console.error('Error fetching companies:', error);
-      throw error;
-    }
-    */
-    await delay(500);
-    return mockCompanies;
+  getCompanies: (): Promise<Company[]> => {
+    return Promise.resolve(mockCompanies);
+    // return api.get('/companies').then(response => response.data);
   },
 
   async createCompany(companyData: Omit<Company, 'id'>): Promise<Company> {
@@ -156,32 +108,14 @@ export const apiService = {
   },
 
   // Транспортные средства
-  async getVehicles(): Promise<Vehicle[]> {
-    /*
-    try {
-      const response = await api.get('/vehicles');
-      return response.data;
-    } catch (error) {
-      console.error('Error fetching vehicles:', error);
-      throw error;
-    }
-    */
-    await delay(500);
-    return mockVehicles;
+  getVehicles: (): Promise<Vehicle[]> => {
+    return Promise.resolve(mockVehicles);
+    // return api.get('/vehicles').then(response => response.data);
   },
 
-  async getCompanyVehicles(companyId: number): Promise<Vehicle[]> {
-    /*
-    try {
-      const response = await api.get(`/companies/${companyId}/vehicles`);
-      return response.data;
-    } catch (error) {
-      console.error('Error fetching company vehicles:', error);
-      throw error;
-    }
-    */
-    await delay(500);
-    return mockVehicles.filter(vehicle => vehicle.companyId === companyId);
+  getCompanyVehicles: (companyId: number): Promise<Vehicle[]> => {
+    return Promise.resolve(mockVehicles.filter(vehicle => vehicle.companyId === companyId));
+    // return api.get(`/companies/${companyId}/vehicles`).then(response => response.data);
   },
 
   async createVehicle(vehicleData: Omit<Vehicle, 'id'>): Promise<Vehicle> {
@@ -233,5 +167,3 @@ export const apiService = {
     }
   }
 };
-
-export { api };

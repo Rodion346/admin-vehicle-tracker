@@ -7,6 +7,7 @@ import { BrowserRouter, Routes, Route } from "react-router-dom";
 import { MainLayout } from "./components/MainLayout";
 import Companies from "./pages/Companies";
 import Users from "./pages/Users";
+import Vehicles from "./pages/Vehicles";
 import NotFound from "./pages/NotFound";
 
 const queryClient = new QueryClient();
@@ -22,6 +23,7 @@ const App = () => (
             <Route path="/" element={<Companies />} />
             <Route path="/companies" element={<Companies />} />
             <Route path="/users" element={<Users />} />
+            <Route path="/vehicles" element={<Vehicles />} />
             <Route path="*" element={<NotFound />} />
           </Routes>
         </MainLayout>
@@ -31,3 +33,4 @@ const App = () => (
 );
 
 export default App;
+
